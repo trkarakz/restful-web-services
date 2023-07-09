@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.toaosocial.rest.webservices.restfulwebservices.exception.UserNotFoundException;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class UserResource {
@@ -38,8 +41,13 @@ public class UserResource {
 		
 	}
 	
+	@DeleteMapping("/users/{userId}")
+	public void deleteUserById(@PathVariable Integer userId) {
+		userDaoService.deleteUserById(userId);
+	}
+	
 	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 		User savedUser = userDaoService.saveUser(user);
 		
 		URI  location = ServletUriComponentsBuilder.fromCurrentRequest()
