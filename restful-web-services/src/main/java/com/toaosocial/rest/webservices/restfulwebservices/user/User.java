@@ -20,21 +20,24 @@ public class User {
 	private Integer id;
 	
 	@Size(min = 2)
-	@JsonProperty(value = "User Name")
+	//@JsonProperty(value = "User Name")
 	private String name;
 	
 	@Past
-	@JsonProperty(value = "User Birth Date")
-	@JsonIgnore
+	//@JsonProperty(value = "User Birth Date")
+	//@JsonIgnore
 	private LocalDate birthDate;
 	
+	public User() {
+	}
+
 	public User(Integer id, String name, LocalDate birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.birthDate = birthDate;
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
