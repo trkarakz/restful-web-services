@@ -1,8 +1,12 @@
 package com.toaosocial.rest.webservices.restfulwebservices.user;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +36,17 @@ public class UserResource {
 	}
 	
 	@GetMapping("/users/{userId}")
-	public User reetrieveUser(@PathVariable Integer userId) {
+	public EntityModel<User> reetrieveUser(@PathVariable Integer userId) {
 		User retrievedUser = userDaoService.findUser(userId);
 		
 		if (retrievedUser == null) throw new UserNotFoundException("userId : " + userId);
 		
-		return retrievedUser;
+		EntityModel<User> entityModel = EntityModel.of(retrievedUser);
+		
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).reetrieveAllUsers());
+		entityModel.add(link.withRel("all-users"));
+		
+		return entityModel;
 		
 	}
 	
