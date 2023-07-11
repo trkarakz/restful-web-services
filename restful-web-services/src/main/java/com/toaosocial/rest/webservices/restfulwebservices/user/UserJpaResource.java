@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.toaosocial.rest.webservices.restfulwebservices.PostRepository;
 import com.toaosocial.rest.webservices.restfulwebservices.UserRepository;
 import com.toaosocial.rest.webservices.restfulwebservices.entity.Post;
 import com.toaosocial.rest.webservices.restfulwebservices.entity.User;
@@ -29,10 +30,17 @@ import jakarta.validation.Valid;
 public class UserJpaResource {
 
 	private UserRepository userRepository;
+
+	private PostRepository postRepository;
+
 	
-	public UserJpaResource(UserRepository userRepository) {
+	public UserJpaResource(UserRepository userRepository, PostRepository postRepository) {
 		this.userRepository = userRepository;
+		this.postRepository = postRepository;
 	}
+	
+	
+	// ------------ User related methods
 	
 	@GetMapping("jpa/users")
 	public List<User> reetrieveAllUsers() {
@@ -60,6 +68,22 @@ public class UserJpaResource {
 		userRepository.deleteById(userId);
 	}
 	
+	@PostMapping("jpa/users")
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+		User savedUser = userRepository.save(user);
+		
+		URI  location = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(savedUser.getId())
+				.toUri();
+				
+		return ResponseEntity.created(location).build();
+		
+	}
+	
+
+	// ----------- Post related methods
+	
 	@GetMapping("jpa/users/{userId}/posts")
 	public List<Post> retrieveUserPosts(@PathVariable Integer userId) {
 		Optional<User> retrievedUser = userRepository.findById(userId);
@@ -70,13 +94,20 @@ public class UserJpaResource {
 		
 	}
 	
-	@PostMapping("jpa/users")
-	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-		User savedUser = userRepository.save(user);
+	
+	@PostMapping("jpa/users/{userId}/posts")
+	public ResponseEntity<Post> createUserPost(@PathVariable Integer userId, @Valid @RequestBody Post post) {
+		Optional<User> retrievedUser = userRepository.findById(userId);
+		
+		if (retrievedUser.isEmpty()) throw new UserNotFoundException("userId : " + userId);
+		
+		post.setUser(retrievedUser.get());
+		
+		Post savedPost = postRepository.save(post);
 		
 		URI  location = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}")
-				.buildAndExpand(savedUser.getId())
+				.buildAndExpand(savedPost.getId())
 				.toUri();
 				
 		return ResponseEntity.created(location).build();
