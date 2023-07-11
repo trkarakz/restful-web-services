@@ -1,9 +1,6 @@
-package com.toaosocial.rest.webservices.restfulwebservices.user;
+package entity;
 
 import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,11 +17,13 @@ public class User {
 	private Integer id;
 	
 	@Size(min = 2)
+	// to change visible name of the field this annotation can be used
 	//@JsonProperty(value = "User Name")
 	private String name;
 	
 	@Past
 	//@JsonProperty(value = "User Birth Date")
+	// to ignore the field in the response body this annotation can be used
 	//@JsonIgnore
 	private LocalDate birthDate;
 	

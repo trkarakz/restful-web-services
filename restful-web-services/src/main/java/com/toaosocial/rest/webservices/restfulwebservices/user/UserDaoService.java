@@ -7,6 +7,8 @@ import java.util.function.Predicate;
 
 import org.springframework.stereotype.Component;
 
+import entity.User;
+
 @Component
 public class UserDaoService {
 
