@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import org.springframework.stereotype.Component;
 
-import entity.User;
+import com.toaosocial.rest.webservices.restfulwebservices.entity.User;
 
 @Component
 public class UserDaoService {
