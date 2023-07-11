@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.toaosocial.rest.webservices.restfulwebservices.UserRepository;
+import com.toaosocial.rest.webservices.restfulwebservices.entity.Post;
 import com.toaosocial.rest.webservices.restfulwebservices.entity.User;
 import com.toaosocial.rest.webservices.restfulwebservices.exception.UserNotFoundException;
 
@@ -57,6 +58,16 @@ public class UserJpaResource {
 	@DeleteMapping("jpa/users/{userId}")
 	public void deleteUserById(@PathVariable Integer userId) {
 		userRepository.deleteById(userId);
+	}
+	
+	@GetMapping("jpa/users/{userId}/posts")
+	public List<Post> retrieveUserPosts(@PathVariable Integer userId) {
+		Optional<User> retrievedUser = userRepository.findById(userId);
+		
+		if (retrievedUser.isEmpty()) throw new UserNotFoundException("userId : " + userId);
+		
+		return retrievedUser.get().getPosts();
+		
 	}
 	
 	@PostMapping("jpa/users")

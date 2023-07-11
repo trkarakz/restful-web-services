@@ -73,11 +73,12 @@
 			<version>2.1.0</version>
 		</dependency>
 
+		<!-- lombok does not work, so commenedted out temporarily	
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
 		</dependency>
+		-->	
 
 		<!-- commented out to prevent conflicting with json format		
 		<dependency>
