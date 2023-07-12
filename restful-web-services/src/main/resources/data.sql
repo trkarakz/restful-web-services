@@ -1,3 +1,4 @@
+/* It will run only when you conncet to in memory database */
 -- User table
 insert into user_details (id, birth_date, name) values (1001, current_date(), 'Test Name1');
 insert into user_details (id, birth_date, name) values (1002, current_date(), 'Test Name2');

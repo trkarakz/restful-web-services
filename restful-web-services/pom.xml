@@ -55,9 +55,17 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- h2 database dependency settings		
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		-->
+
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -78,7 +86,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
-		-->	
+		-->
 
 		<!-- commented out to prevent conflicting with json format		
 		<dependency>

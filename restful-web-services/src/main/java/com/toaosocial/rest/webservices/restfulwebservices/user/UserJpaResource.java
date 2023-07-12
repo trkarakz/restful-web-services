@@ -82,7 +82,7 @@ public class UserJpaResource {
 	}
 	
 
-	// ----------- Post related methods
+	// ----------- User post related methods
 	
 	@GetMapping("jpa/users/{userId}/posts")
 	public List<Post> retrieveUserPosts(@PathVariable Integer userId) {
